@@ -1,0 +1,11 @@
+.slider-container { 
+    
+    overflow: hidden;
+    width: 600px; /* Set your desired width */
+    height: 200px; /* Set your desired height */
+  }
+  
+  .slider {
+    display: flex;
+    transition: transform 0.3s ease; /* Add smooth transition for sliding */
+  }
