@@ -1,11 +1,15 @@
-import Header from "./components/Header";
-import Products from "./components/Products";
+import Header from "./header/Header";
+import SliderComponent from './slider/SliderComponent'
+import images from './assets';
 
+const imageArray = images;
+
+// console.log(imageArray);
 function App() {
   return (
     <div className="App">
         <Header/>
-        <Products/>
+        <SliderComponent images={imageArray}/>
     </div>
   );
 }
