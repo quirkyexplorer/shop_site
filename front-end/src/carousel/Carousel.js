@@ -5,6 +5,21 @@ import { useState } from "react";
 // import images from '../assets/';
 
 const CarouselWrapper = styled.div`
+  // arrowsize number
+  // cardWidth number
+  // style? object
+  // scrollingDisabled boolean 
+  // gap: number
+  // buttonHidden? boolean
+  // initialScrollOffset: number
+  // maxContentWindowWidth: nnumber
+  // isCircular: boolean
+
+  // Elements ****************
+  // prevButton? jsxelement
+  // nextButton? jsxElement
+  // children? React.ChildrenArray<jsxElement>
+  
   overflow: hidden;
 `;
 
