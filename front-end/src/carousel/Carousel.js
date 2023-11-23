@@ -4,13 +4,6 @@ import { useState } from "react";
 
 // import images from '../assets/';
 
-// console.log(imageArray);
-const CenterCarousel = styled.div`
-  position:relative;
-  display: flex;
-  justify-content: center;
-`
-
 const CarouselWrapper = styled.div`
   // arrowsize number
   // cardWidth number
@@ -26,7 +19,7 @@ const CarouselWrapper = styled.div`
   // prevButton? jsxelement
   // nextButton? jsxElement
   // children? React.ChildrenArray<jsxElement>
-  
+  position:relative;
   /* padding-left: 10px; */
   padding-top: 15px;
   padding-bottom: 15px;
@@ -48,13 +41,13 @@ const CarouselItem = styled.div``;
 const Image = styled.img`
   max-width: 300px;
   border-radius: 3%;
-  box-shadow: 10px 10px 10px -5px #000000;
+  /* box-shadow: 10px 10px 10px -5px #000000; */
 `;
 
 const Button = styled.button`
   position: absolute;
   top: 50%;
-  ${(props) => (props.direction === 'right' ? 'right: 15%' : 'left: 15%')};
+  ${(props) => (props.direction === 'right' ? 'right: 2%' : 'left: 2%')};
 `;
 
 export default function Carrousel({ images }) {
@@ -74,25 +67,22 @@ export default function Carrousel({ images }) {
   };
 
   return (
-    <CenterCarousel>
-      <CarouselWrapper>
-        <CarouselTrack
-          style={{ transform: `translateX(-${currentIndex * 320}px)` }}
-        >
-          {images.map((image, index) => {
-            return (
-              <CarouselItem key={`img${index}`}>
-                <Image src={image} alt={`carousel-item-${index}`} />
-              </CarouselItem>
-            );
-          })}
-        </CarouselTrack>
-        {/* Add navigation buttons or indicators */}
-        
-        {/* Implement event handlers for next and previous buttons */}
-      </CarouselWrapper>
-        <Button direction={'left'} onClick={handlePrev}>left</Button>
-        <Button direction={'right'} onClick={handleNext}>right</Button>
-    </CenterCarousel>
+    <CarouselWrapper>
+      <CarouselTrack
+        style={{ transform: `translateX(-${currentIndex * 320}px)` }}
+      >
+        {images.map((image, index) => {
+          return (
+            <CarouselItem key={`img${index}`}>
+              <Image src={image} alt={`carousel-item-${index}`} />
+            </CarouselItem>
+          );
+        })}
+      </CarouselTrack>
+      {/* Add navigation buttons or indicators */}
+      <Button direction={'left'} onClick={handlePrev}>left</Button>
+      <Button direction={'right'} onClick={handleNext}>right</Button>
+      {/* Implement event handlers for next and previous buttons */}
+    </CarouselWrapper>
   );
 }
