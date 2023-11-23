@@ -1,7 +1,9 @@
 import Header from "./header/Header";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Carrousel from "./carousel/Carousel";
 import images from './assets/';
 import Body from "./body/Body";
+import EditPage from "./pages/EditPage";
 
 // console.log(imageArray);
 
@@ -9,9 +11,15 @@ import Body from "./body/Body";
 function App() {
   return (
     <div className="App">
-        <Header/>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/edit" component={EditPage} />
+        </Switch>
+      </Router>
+        {/* <Header/>
         <Body/>
-         <Carrousel images={images}/>
+        <Carrousel images={images}/> */}
     </div>
   );
 }
