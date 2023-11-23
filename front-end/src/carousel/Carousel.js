@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from 'styled-components';
 import { useState } from "react";
 
 // import images from '../assets/';
@@ -19,13 +19,20 @@ const CarouselWrapper = styled.div`
   // prevButton? jsxelement
   // nextButton? jsxElement
   // children? React.ChildrenArray<jsxElement>
-  
+  position:relative;
+  /* padding-left: 10px; */
+  padding-top: 15px;
+  padding-bottom: 15px;
+  max-width: 960px;
   overflow: hidden;
 `;
 
 const CarouselTrack = styled.div`
+  padding-left: 10px;
   display: flex;
-  transition: transform 0.5s ease;
+  align-items: center;
+  transition: transform 1s ease;
+  gap:20px;
   /* transform: translateX(300px); */
 `;
 
@@ -33,14 +40,23 @@ const CarouselItem = styled.div``;
 
 const Image = styled.img`
   max-width: 300px;
+  border-radius: 3%;
+  /* box-shadow: 10px 10px 10px -5px #000000; */
+`;
+
+const Button = styled.button`
+  position: absolute;
+  top: 50%;
+  ${(props) => (props.direction === 'right' ? 'right: 2%' : 'left: 2%')};
 `;
 
 export default function Carrousel({ images }) {
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? prevIndex : prevIndex + 1
+      prevIndex === images.length - 3 ? prevIndex : prevIndex + 1
     );
   };
 
@@ -50,11 +66,10 @@ export default function Carrousel({ images }) {
     );
   };
 
-  console.log(images);
   return (
     <CarouselWrapper>
       <CarouselTrack
-        style={{ transform: `translateX(-${currentIndex * 300}px)` }}
+        style={{ transform: `translateX(-${currentIndex * 320}px)` }}
       >
         {images.map((image, index) => {
           return (
@@ -65,8 +80,8 @@ export default function Carrousel({ images }) {
         })}
       </CarouselTrack>
       {/* Add navigation buttons or indicators */}
-      <button onClick={handlePrev}>left</button>
-      <button onClick={handleNext}>right</button>
+      <Button direction={'left'} onClick={handlePrev}>left</Button>
+      <Button direction={'right'} onClick={handleNext}>right</Button>
       {/* Implement event handlers for next and previous buttons */}
     </CarouselWrapper>
   );
