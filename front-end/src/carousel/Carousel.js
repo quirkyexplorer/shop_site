@@ -4,6 +4,12 @@ import { useState } from "react";
 
 // import images from '../assets/';
 
+const CenterCarousel = styled.div`
+  display: flex;
+  justify-content: center;
+  position:relative;
+`
+
 const CarouselWrapper = styled.div`
   // arrowsize number
   // cardWidth number
@@ -19,7 +25,6 @@ const CarouselWrapper = styled.div`
   // prevButton? jsxelement
   // nextButton? jsxElement
   // children? React.ChildrenArray<jsxElement>
-  position:relative;
   /* padding-left: 10px; */
   padding-top: 15px;
   padding-bottom: 15px;
@@ -47,7 +52,7 @@ const Image = styled.img`
 const Button = styled.button`
   position: absolute;
   top: 50%;
-  ${(props) => (props.direction === 'right' ? 'right: 2%' : 'left: 2%')};
+  ${(props) => (props.direction === 'right' ? 'right: 15%' : 'left: 15%')};
 `;
 
 export default function Carrousel({ images }) {
@@ -67,22 +72,24 @@ export default function Carrousel({ images }) {
   };
 
   return (
-    <CarouselWrapper>
-      <CarouselTrack
-        style={{ transform: `translateX(-${currentIndex * 320}px)` }}
-      >
-        {images.map((image, index) => {
-          return (
-            <CarouselItem key={`img${index}`}>
-              <Image src={image} alt={`carousel-item-${index}`} />
-            </CarouselItem>
-          );
-        })}
-      </CarouselTrack>
-      {/* Add navigation buttons or indicators */}
-      <Button direction={'left'} onClick={handlePrev}>left</Button>
-      <Button direction={'right'} onClick={handleNext}>right</Button>
-      {/* Implement event handlers for next and previous buttons */}
-    </CarouselWrapper>
+    <CenterCarousel>
+      <CarouselWrapper>
+        <CarouselTrack
+          style={{ transform: `translateX(-${currentIndex * 320}px)` }}
+        >
+          {images.map((image, index) => {
+            return (
+              <CarouselItem key={`img${index}`}>
+                <Image src={image} alt={`carousel-item-${index}`} />
+              </CarouselItem>
+            );
+          })}
+        </CarouselTrack>
+        {/* Add navigation buttons or indicators */}
+        <Button direction={'left'} onClick={handlePrev}>left</Button>
+        <Button direction={'right'} onClick={handleNext}>right</Button>
+        {/* Implement event handlers for next and previous buttons */}
+      </CarouselWrapper>
+    </CenterCarousel>
   );
 }
