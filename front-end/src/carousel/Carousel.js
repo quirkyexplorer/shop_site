@@ -51,7 +51,7 @@ const Image = styled.img`
 const Button = styled.button`
   position: absolute;
   top: 50%;
-  ${(props) => (props.direction === 'right' ? 'right: 15%' : 'left: 15%')};
+  ${(props) => (props.direction === 'right' ? 'left:90%' : 'right:90%')};
 `;
 
 export default function Carrousel() {

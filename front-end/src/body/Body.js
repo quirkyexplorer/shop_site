@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 const BodyWrapper = styled.div`
-  height: 900px;
+  height: 100px;
 `;
 export default function Body() {
   console.log('hello world');
