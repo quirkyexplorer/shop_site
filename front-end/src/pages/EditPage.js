@@ -1,20 +1,28 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 export default function EditPage() {
   return (
     <div>
+
+      <div style={{height: 100}}>
+        <Link to={'/'}>home</Link>
+      </div>
       <h2>
-      Welcome to the edit page
+      Bienvenida a la página de edición
       </h2>
       <form onSubmit={'handleSubmit'}>
-        <input placeholder='Producto'>Nombre del Producto:</input>
+        Nombre de la prenda:
+        <input type={'text'} placeholder='Producto' value={''}/>
         <br/>
-        <input placeholder='Price'>Precio:</input>
+        Precio:
+        <input type={'text'} placeholder='Price' value={''}/>
         <br/>
-        <input placeholder='Descripcion'>Breve descripcion:</input>
+        Breve descripción:
+        <input type={'text'} placeholder='Descripcion' value={''}/>
         <br/>
-        <button type='submit'></button>
+        <button type='submit'>Guardar</button>
       </form>
     </div>
   )
-}
+};

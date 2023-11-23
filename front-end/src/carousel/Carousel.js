@@ -1,8 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 import { useState } from "react";
-
-// import images from '../assets/';
+import images from '../assets/';
 
 const CenterCarousel = styled.div`
   display: flex;
@@ -55,7 +54,7 @@ const Button = styled.button`
   ${(props) => (props.direction === 'right' ? 'right: 15%' : 'left: 15%')};
 `;
 
-export default function Carrousel({ images }) {
+export default function Carrousel() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 

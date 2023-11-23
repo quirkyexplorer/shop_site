@@ -1,25 +1,17 @@
-import Header from "./header/Header";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Carrousel from "./carousel/Carousel";
-import images from './assets/';
-import Body from "./body/Body";
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import EditPage from "./pages/EditPage";
-
-// console.log(imageArray);
-
+import Home from "./pages/Home";
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/edit" component={EditPage} />
-        </Switch>
+        <Routes>
+          <Route path="/"  element={<Home />} />
+          <Route path="/edit" element={<EditPage />} />
+        </Routes>
       </Router>
-        {/* <Header/>
-        <Body/>
-        <Carrousel images={images}/> */}
+        
     </div>
   );
 }
