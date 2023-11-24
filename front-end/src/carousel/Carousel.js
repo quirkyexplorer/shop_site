@@ -1,11 +1,14 @@
 import React from "react";
 import styled from 'styled-components';
 import { useState } from "react";
-import images from '../assets/';
+import { images } from '../assets/';
 
 const CenterCarousel = styled.div`
+  height: 90vh;
+  background-color: black;
   display: flex;
   justify-content: center;
+  align-items: center;
   position:relative;
 `
 
