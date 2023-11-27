@@ -66,7 +66,8 @@ const getUploadcareImageUrl = (uuid, transformations) => {
 
 const uuids = [
 '600ad34e-7128-44d4-b4f7-058f01bad750',
-'44d7c159-4f4f-4b9c-bd65-aa7751c4a80c'
+'44d7c159-4f4f-4b9c-bd65-aa7751c4a80c',
+"a81fd0b4-e843-4102-af35-dc6b10ecfb03"
 // Add more UUIDs as needed
 ];
 

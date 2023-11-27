@@ -51,9 +51,9 @@ export default function HeroSection() {
       </h2> */}
       <HeroCard>
         <div>
-          {heroes.map((hero) => {
+          {heroes.map((hero, index) => {
           return (
-            <Image alt='' src={hero}/>
+            <Image key={`hero${index}`} alt='' src={hero}/>
           );
         })}
         </div>
