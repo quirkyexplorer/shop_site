@@ -1,7 +1,8 @@
 import React from "react";
 import styled from 'styled-components';
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import { images } from '../assets/';
+
 
 const CenterCarousel = styled.div`
   height: 90vh;
@@ -57,9 +58,48 @@ const Button = styled.button`
   ${(props) => (props.direction === 'right' ? 'left:90%' : 'right:90%')};
 `;
 
-export default function Carrousel() {
+const getUploadcareImageUrl = (uuid, transformations) => {
+  const baseUrl = `https://ucarecdn.com/${uuid}`;
+  const transformationsString = transformations.join('/');
+  return `${baseUrl}/${transformationsString}/`;
+};
 
+const uuids = [
+'600ad34e-7128-44d4-b4f7-058f01bad750',
+'44d7c159-4f4f-4b9c-bd65-aa7751c4a80c',
+"a81fd0b4-e843-4102-af35-dc6b10ecfb03"
+// Add more UUIDs as needed
+];
+
+export default function Carrousel() {
+  const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    // Fetch images from Uploadcare and update the state
+    // Replace 'YOUR_UUID_HERE' with the actual UUID
+    const fetchImages = async () => {
+      try {
+        const promises = uuids.map(async (uuid) => {
+          const response = await fetch(`https://api.uploadcare.com/files/${uuid}/`);
+          const data = await response.json();
+          const imageUrl = getUploadcareImageUrl(uuid, [
+            '-/preview/600x800/',
+            '-/format/auto/',
+            '-/quality/smart/'
+          ]);
+          return imageUrl;
+        });
+
+        const uploadedImages = await Promise.all(promises);
+        setImages(uploadedImages);
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
