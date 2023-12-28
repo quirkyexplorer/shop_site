@@ -4,11 +4,11 @@ import Hero1 from '../assets/hero1.jpg';
 import Hero2 from '../assets/hero2.jpg';
 
 const HeroWrapper = styled.div`
- 
+ //hsl(315, 100%, 50%)
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to bottom, hsl(0, 0%, 75%), hsl(0, 0%, 0%));
+  background: linear-gradient(to bottom, hsl(265, 100%, 50%), hsl(0, 0%, 75%));
   margin: 0;
 `;
 
@@ -56,7 +56,7 @@ const ButtonWrapper = styled.div`
 const Banner = styled.h1`
   color: white;
   &:hover {
-    color: rgb(209,0,122);
+    color:   hsl(315, 100%, 50%);
   }
 `;
 

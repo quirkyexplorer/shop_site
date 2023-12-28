@@ -7,7 +7,14 @@ import { images } from '../assets/';
 const CenterCarousel = styled.div`
   height: 100vh;
   padding-top: 100px;
-  background-color: black;
+  //background-color: hsl(0, 0%, 75%);
+  background-image: conic-gradient(
+      deeppink,
+      coral,
+      gold,
+      coral,
+      deeppink /* <-- same color! */
+    );;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +57,7 @@ const CarouselItem = styled.div``;
 const Image = styled.img`
   max-width: 300px;
   border-radius: 3%;
-  /* box-shadow: 10px 10px 10px -5px #000000; */
+  box-shadow: 0px 0px 20px 1px hsl(265, 100%, 35%);
 `;
 
 const Button = styled.button`
@@ -68,7 +75,7 @@ const getUploadcareImageUrl = (uuid, transformations) => {
 const uuids = [
 '600ad34e-7128-44d4-b4f7-058f01bad750',
 '44d7c159-4f4f-4b9c-bd65-aa7751c4a80c',
-"a81fd0b4-e843-4102-af35-dc6b10ecfb03"
+"a81fd0b4-e843-4102-af35-dc6b10ecfb03",
 // Add more UUIDs as needed
 ];
 
