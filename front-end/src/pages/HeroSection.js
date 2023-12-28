@@ -1,6 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
-import { heroes } from '../assets';
+import styled, { css } from 'styled-components';
+import Hero1 from '../assets/hero1.jpg';
+import Hero2 from '../assets/hero2.jpg';
 
 const HeroWrapper = styled.div`
  
@@ -8,7 +9,6 @@ const HeroWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background: linear-gradient(to bottom, hsl(0, 0%, 75%), hsl(0, 0%, 0%));
-  height: 100vh;
   margin: 0;
 `;
 
@@ -16,8 +16,28 @@ const HeroCard  = styled.div`
   position: relative;
 `;
 
+const ImageWrapper = styled.div`
+  display: flex;
+  padding-top: 150px;
+  
+`
+
 const Image  = styled.img`
-  max-width: 500px;
+  max-width: 600px;
+
+  /* Media query for Hero2 image */
+  @media (max-width: 1024px) {
+    ${({ hideAt1024 }) =>
+      hideAt1024 &&
+      css`
+        display: none;
+      `}
+  }
+  
+  @media (max-width: 600px) {
+      max-width: screen;
+  }
+
 `;
 
 const ButtonWrapper = styled.div`
@@ -26,11 +46,18 @@ const ButtonWrapper = styled.div`
   flex-direction: column;
   align-items:center;
   top: 75%;
-  left: 33%;
+  left: 35%;
+
+  @media (max-width: 1024px) {
+    left: 23%;
+  }
 `;
 
 const Banner = styled.h1`
   color: white;
+  &:hover {
+    color: rgb(209,0,122);
+  }
 `;
 
 const Button = styled.a`
@@ -42,24 +69,26 @@ const Button = styled.a`
   padding: 15px;
   width: 200px;
   height: 33px;
+  // on hover apply below
+  &:hover {
+    background-color: white;
+    color: black;
+  }
 `;
 export default function HeroSection() {
   return (
-    <HeroWrapper>
+    <HeroWrapper id='HeroWrapper'>
      {/* <h2 style={{textAlign: 'center', margin: 0}}>
         Welcome to home page
       </h2> */}
-      <HeroCard>
-        <div>
-          {heroes.map((hero, index) => {
-          return (
-            <Image key={`hero${index}`} alt='' src={hero}/>
-          );
-        })}
-        </div>
-        <ButtonWrapper>
-          <Banner >Lista para el Veraneo?</Banner>
-            <Button>
+      <HeroCard id='HeroCard'>
+        <ImageWrapper id='ImageWrapper'>
+        <Image src={Hero1} alt='girl in sportswear' />
+        <Image src={Hero2} alt='girl in sportswear' hideAt1024/>
+        </ImageWrapper>
+        <ButtonWrapper id='ButtonWrapper'>
+          <Banner id='Banner'>Lista para el Veraneo?</Banner>
+            <Button id='Button'>
               Ver Estilos
             </Button>
         </ButtonWrapper>

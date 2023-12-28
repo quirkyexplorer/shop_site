@@ -5,7 +5,8 @@ import { images } from '../assets/';
 
 
 const CenterCarousel = styled.div`
-  height: 90vh;
+  height: 100vh;
+  padding-top: 100px;
   background-color: black;
   display: flex;
   justify-content: center;
@@ -114,7 +115,7 @@ export default function Carrousel() {
   };
 
   return (
-    <CenterCarousel>
+    <CenterCarousel id="CenterCarousel">
       <CarouselWrapper>
         <CarouselTrack
           style={{ transform: `translateX(-${currentIndex * 320}px)` }}
