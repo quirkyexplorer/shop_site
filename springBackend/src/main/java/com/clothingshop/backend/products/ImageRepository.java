@@ -20,7 +20,11 @@ public class ImageRepository {
 
     //  here wer are returning a list of images that have the same productId, or belong 
     // to the same product
-    public List<Image> findByProductId(int productId) {
+    public List<Image> findAllImagesOfProduct(int productId) {
+        return images.stream().filter(image -> image.productId() == productId).toList();
+    }
+
+    public List<Image> findMainImageOfProduct(int productId) {
         return images.stream().filter(image -> image.productId() == productId).toList();
     }
 
