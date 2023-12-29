@@ -8,13 +8,29 @@ const CenterCarousel = styled.div`
   height: 100vh;
   padding-top: 100px;
   //background-color: hsl(0, 0%, 75%);
-  background-image: conic-gradient(
-      deeppink,
-      coral,
-      gold,
-      coral,
-      deeppink /* <-- same color! */
-    );;
+  /* background: conic-gradient( 
+    from 300deg at 50% 50%,
+    hsl(198, 82%, 5%),
+    hsl(265, 100%, 50%), 
+    hsl(265, 100%, 50%), 
+    hsl(198, 82%, 5%)
+    ); */
+  background-color: hsl(198, 82%, 5%);
+  background-image:
+  linear-gradient(
+    calc(180deg - 20deg),
+    transparent 0%,
+    transparent 70%,
+    hsl(265, 100%, 50%) 50%,
+    hsl(198, 82%, 5%) 100%
+  ),
+  linear-gradient(
+    calc(180deg - 20deg),
+    transparent 0%,
+    transparent 50%,
+    hsl(265, 100%, 35%) 50%,
+    hsl(198, 82%, 5%)100%
+  );
   display: flex;
   justify-content: center;
   align-items: center;
