@@ -2,6 +2,9 @@ import React from "react";
 import styled from 'styled-components';
 import { useState , useEffect} from "react";
 import { images } from '../assets/';
+import { ReactComponent as RightSvg} from '../svgs/rightArrow.svg'
+import { ReactComponent as LeftSvg} from '../svgs/leftArrow.svg'
+
 
 
 const CenterCarousel = styled.div`
@@ -73,13 +76,30 @@ const CarouselItem = styled.div``;
 const Image = styled.img`
   max-width: 300px;
   border-radius: 3%;
-  box-shadow: 0px 0px 20px 1px hsl(265, 100%, 35%);
+  box-shadow: 0px 0px 10px 1px hsl(265, 100%, 50%);
 `;
 
-const Button = styled.button`
+const Button = styled.div`
+  display: flex;
   position: absolute;
+  border-radius: 50%;
+  background-color: hsl(315, 100%, 50%);
+  //border: 4px solid black; /* 2px width, solid style, black color */
+  border-radius: 50%;
+  //background-color: transparent;
   top: 50%;
+
+
   ${(props) => (props.direction === 'right' ? 'left:90%' : 'right:90%')};
+
+/* Hover effect */
+  :hover {
+    transform: scale(1.3);
+    background-color: hsl(315, 100%, 50%);
+    border-radius: 50%;
+    transition: transform 200ms;
+  }
+
 `;
 
 const getUploadcareImageUrl = (uuid, transformations) => {
@@ -89,9 +109,11 @@ const getUploadcareImageUrl = (uuid, transformations) => {
 };
 
 const uuids = [
-'600ad34e-7128-44d4-b4f7-058f01bad750',
-'44d7c159-4f4f-4b9c-bd65-aa7751c4a80c',
-"a81fd0b4-e843-4102-af35-dc6b10ecfb03",
+'ff75dcd1-3d8d-48e6-975f-0cec75e2cec6',
+'c7c299b7-74d7-472f-94be-ecfb7cf681c6',
+"cfafce80-0c86-41ba-b7ee-671ecce588b2",
+'3015364a-ce6a-4b2d-9094-53a4ccf12c8a',
+'8d688e91-1353-46f2-8ae7-998e5d71f3dc'
 // Add more UUIDs as needed
 ];
 
@@ -152,10 +174,22 @@ export default function Carrousel() {
           })}
         </CarouselTrack>
         {/* Add navigation buttons or indicators */}
-        <Button direction={'left'} onClick={handlePrev}>left</Button>
-        <Button direction={'right'} onClick={handleNext}>right</Button>
+        <Button id="Button" direction={'left'} onClick={handlePrev}>
+          <LeftSvg/>
+        </Button>
+        
+        
+        <div >
+          <Button id="Button" direction={'right'} onClick={handleNext}>
+            <RightSvg  />
+          </Button>
+        </div>
+        
+        
         {/* Implement event handlers for next and previous buttons */}
       </CarouselWrapper>
     </CenterCarousel>
   );
 }
+
+//style={{ backgroundColor: 'hsl(333, 100%, 50%)', borderRadius: '100%', border: '4px solid #000' }}
