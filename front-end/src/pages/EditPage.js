@@ -4,17 +4,87 @@ import * as LR from "@uploadcare/blocks";
 import styled from "styled-components";
 LR.registerBlocks(LR);
 
+/*
+  color scheme
+  hot pink hsl(315, 100%, 50%);
+  dark pink hsl(300, 100%, 35%);
+  red pink hsl(333, 100%, 50%);
+  light purple hsl(265, 100%, 50%);
+  dark purple hsl(265, 100%, 35%);
+  dark blue hsl(198, 82%, 5%).
+  light teal hsl(171, 100%, 49%)
+*/
+
 const EditPageWrapper = styled.div`
+  height: 100vh;
+  background: conic-gradient( 
+    from 180deg at 50% 50%,
+    hsl(300, 100%, 35%),
+    hsl(315, 100%, 50%), 
+    hsl(333, 100%, 50%),
+    hsl(315, 100%, 50%), 
+    hsl(300, 100%, 35%)
+    );
+  position: relative;
+`;
+
+const Title = styled.div`
+  font-size: 2rem;
+  font-weight: 800;
+  display: flex;
+  justify-content:center;
+  padding: 40px;
+`;
+
+
+const FormWrapper = styled.div`
+  position: absolute;
+  left: 40%;
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
+  height: fit-content;
+  padding: 1rem 2rem;
+  width: fit-content;
+  background-color: hsl(265, 100%, 35%);
+  border-radius: 1rem;
 `;
 
+const InputWrapper = styled.div`
+  background-color: white;
+  padding: .5rem;
+  border-radius: .5rem;
+`
 const Form = styled.div`
-  /* display: flex;
+  color: hsl(171, 100%, 49%);
+  font-weight: 600;
+  display: flex;
+  gap: .8rem;
   flex-direction: column;
-  justify-content: center; */
+  justify-content: center;
+  padding-bottom: 2rem;
 `;
+
+const Input = styled.input`
+  //background-color: white;
+  border: none;
+  outline: none;
+`;
+
+const Button = styled.button`
+  margin-top: 1rem;
+  padding: 1rem;
+  width: 8rem;
+  align-self: center;
+  border-radius: 5rem;
+  background-color: hsl(198, 82%, 5%);
+  color: hsl(171, 100%, 49%);
+  font-weight: 600;
+  
+`;
+
+
 
 export default function EditPage() {
   const dataOutputRef = useRef();
@@ -34,48 +104,59 @@ export default function EditPage() {
   }, [handleUploaderEvent]);
 
   return (
-    <EditPageWrapper>
-      <div style={{ height: 100 }}>
-        <Link to={"/"}>home</Link>
-      </div>
-      <h2>Bienvenida a la página de edición</h2>
-      <Form onSubmit={"handleSubmit"}>
-        Nombre de la prenda:
-        <input type={"text"} placeholder="Producto" value={""} />
-        <br />
-        Precio:
-        <input type={"text"} placeholder="Price" value={""} />
-        <br />
-        Breve descripción:
-        <input type={"text"} placeholder="Descripcion" value={""} />
-        <br />
-        <button type="submit">Guardar</button>
-      </Form>
+    <EditPageWrapper id="EditPageWrapper">
+     
+      <Title id="div">Bienvenida a la página de edición</Title>
 
-      <lr-config
-        ctx-name="my-uploader"
-        pubkey="b739047dcf890df23203"
-        img-only="true"
-        multiple="false"
-        max-local-file-size-bytes="524288000"
-        use-cloud-image-editor="true"
-        source-list="local, camera, instagram"
-      ></lr-config>
+      
+      <FormWrapper id="FormWrapper">
+        <Form id="Form" onSubmit={"handleSubmit"}>
+          Nombre de la prenda:
 
-      <lr-file-uploader-regular
-        ctx-name="my-uploader"
-        class="my-config"
-        css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.25.0/web/lr-file-uploader-regular.min.css"
-      >
-        <lr-data-output
-          ref={dataOutputRef}
+          <InputWrapper>
+            <Input type={"text"} placeholder="Producto" value={""} />
+          </InputWrapper>
+          
+        
+          Precio:
+          <InputWrapper>
+            <Input type={"text"} placeholder="Precio" value={""} />
+          </InputWrapper>
+          
+          Breve descripción:
+          <InputWrapper>
+            <Input type={"text"} placeholder="Descripcion" value={""} />
+          </InputWrapper>
+          <Button id='Button' type="submit">Guardar</Button >
+        </Form>
+
+        <lr-config
           ctx-name="my-uploader"
           pubkey="b739047dcf890df23203"
-          hidden
-          use-event
-          onEvent={handleUploaderEvent}
-        ></lr-data-output>
-      </lr-file-uploader-regular>
+          img-only="true"
+          multiple="false"
+          max-local-file-size-bytes="524288000"
+          use-cloud-image-editor="true"
+          source-list="local, camera, instagram"
+        ></lr-config>
+
+        <lr-file-uploader-regular
+          ctx-name="my-uploader"
+          class="my-config"
+          css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.25.0/web/lr-file-uploader-regular.min.css"
+        >
+          <lr-data-output
+            ref={dataOutputRef}
+            ctx-name="my-uploader"
+            pubkey="b739047dcf890df23203"
+            hidden
+            use-event
+            onEvent={handleUploaderEvent}
+          ></lr-data-output>
+        </lr-file-uploader-regular>
+
+      </FormWrapper>
+      
 
       <div>
         {files.map((file) => (
