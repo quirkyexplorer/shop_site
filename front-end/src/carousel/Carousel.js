@@ -1,7 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 import { useState , useEffect} from "react";
-import { images } from '../assets/';
+//import { images } from '../assets/';
 import { ReactComponent as RightSvg} from '../svgs/rightArrow.svg'
 import { ReactComponent as LeftSvg} from '../svgs/leftArrow.svg'
 
@@ -41,25 +41,18 @@ const CenterCarousel = styled.div`
 `
 
 const CarouselWrapper = styled.div`
-  // arrowsize number
-  // cardWidth number
-  // style? object
-  // scrollingDisabled boolean 
-  // gap: number
-  // buttonHidden? boolean
-  // initialScrollOffset: number
-  // maxContentWindowWidth: nnumber
-  // isCircular: boolean
-
-  // Elements ****************
-  // prevButton? jsxelement
-  // nextButton? jsxElement
-  // children? React.ChildrenArray<jsxElement>
-  /* padding-left: 10px; */
   padding-top: 15px;
   padding-bottom: 15px;
   max-width: 960px;
   overflow: hidden;
+
+  @media (max-width: 950px) {
+    max-width: 645px;
+  }
+
+  @media (max-width: 600px) {
+    max-width: 325px;
+  }
 `;
 
 const CarouselTrack = styled.div`
@@ -84,12 +77,15 @@ const Button = styled.div`
   position: absolute;
   border-radius: 50%;
   background-color: hsl(315, 100%, 50%);
-  //border: 4px solid black; /* 2px width, solid style, black color */
   border-radius: 50%;
-  //background-color: transparent;
   top: 50%;
+  
+  @media (max-width: 600px) {
+    top: 90%; 
+    ${(props) => (props.direction === 'right' ? 'left:60%' : 'right:60%')};
+  }
 
-
+  /* below we move the pictures manipulating css */
   ${(props) => (props.direction === 'right' ? 'left:90%' : 'right:90%')};
 
 /* Hover effect */
@@ -97,7 +93,7 @@ const Button = styled.div`
     transform: scale(1.3);
     background-color: hsl(315, 100%, 50%);
     border-radius: 50%;
-    transition: transform 200ms;
+    transition: transform 300ms;
   }
 
 `;
@@ -161,35 +157,31 @@ export default function Carrousel() {
 
   return (
     <CenterCarousel id="CenterCarousel">
-      <CarouselWrapper>
-        <CarouselTrack
+      <CarouselWrapper id="CarouselWrapper">
+        {/* here we pass values to move hidden pictures by */}
+        <CarouselTrack id="CarouselTrack"
           style={{ transform: `translateX(-${currentIndex * 320}px)` }}
         >
           {images.map((image, index) => {
             return (
-              <CarouselItem key={`img${index}`}>
-                <Image src={image} alt={`carousel-item-${index}`} />
+              <CarouselItem id="CarouselItem" key={`img${index}`}>
+                <Image id="Image" src={image} alt={`carousel-item-${index}`} />
               </CarouselItem>
             );
           })}
         </CarouselTrack>
-        {/* Add navigation buttons or indicators */}
+
+        {/* navigation buttons or indicators */}
         <Button id="Button" direction={'left'} onClick={handlePrev}>
           <LeftSvg/>
         </Button>
         
-        
-        <div >
-          <Button id="Button" direction={'right'} onClick={handleNext}>
-            <RightSvg  />
-          </Button>
-        </div>
+        <Button id="Button" direction={'right'} onClick={handleNext}>
+          <RightSvg  />
+        </Button>
         
         
-        {/* Implement event handlers for next and previous buttons */}
       </CarouselWrapper>
     </CenterCarousel>
   );
 }
-
-//style={{ backgroundColor: 'hsl(333, 100%, 50%)', borderRadius: '100%', border: '4px solid #000' }}
