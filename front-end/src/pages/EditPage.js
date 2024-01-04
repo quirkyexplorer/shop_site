@@ -1,8 +1,162 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Link } from "react-router-dom";
 import * as LR from "@uploadcare/blocks";
 import styled from "styled-components";
 LR.registerBlocks(LR);
+
+export default function EditPage() {
+  const dataOutputRef = useRef();
+  const [files, setFiles] = useState([]);
+  const [formData, setFormData] = useState({ 
+    precio: "", 
+    titulo: "", 
+    descripcion: "" 
+  });
+  
+  const handleUploaderEvent = useCallback((e) => {
+    const { data } = e.detail;
+    setFiles(data);
+  }, []);
+  //console.log("files", files);
+
+  useEffect(() => {
+    const el = dataOutputRef.current;
+    el?.addEventListener("lr-data-output", handleUploaderEvent);
+    return () => {
+      el?.removeEventListener("lr-data-output", handleUploaderEvent);
+    };
+  }, [handleUploaderEvent]);
+
+  // input has its own properties called name and value
+  const handleInputChange = (event) => {  
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  } 
+  console.log('input change', formData);
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const Data = {
+      price: 50.00,
+      title: "Product Title",
+      description: "Product Description",
+      imageId: [1, 2, 3]
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Server response:', data);
+
+      // Reset the form fields
+      setFormData({
+        precio: '',
+        titulo: '',
+        descripcion: '',
+      });
+    } catch (error) {
+      console.error('Error during fetch:', error);
+    }
+  };
+
+
+  return (
+    <EditPageWrapper id="EditPageWrapper">
+     
+      <Title id="div">Bienvenida a la página de edición</Title>
+      
+      <form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column", width: "15rem"}}>
+        <input 
+          placeholder="precio" 
+          name="precio" 
+          value={formData.precio} 
+          onChange={handleInputChange}>
+        </input>
+        <input 
+          placeholder="titulo" 
+          name="titulo" 
+          value={formData.titulo} 
+          onChange={handleInputChange}>
+        </input>
+        <input 
+          placeholder="descripcion" 
+          name="descripcion" 
+          value={formData.descripcion} 
+          onChange={handleInputChange}>
+        </input>
+        <button type="submit">guardar</button>
+      </form>
+
+      {/* <FormWrapper id="FormWrapper"> */}
+        {/* <Form id="Form" onSubmit={"handleSubmit"}>
+          Nombre de la prenda:
+
+          <InputWrapper>
+            <Input type={"text"} placeholder="Producto" value={""} />
+          </InputWrapper>
+          
+          Precio:
+          <InputWrapper>
+            <Input type={"text"} placeholder="Precio" value={""} />
+          </InputWrapper>
+          
+          Breve descripción:
+          <InputWrapper>
+            <Input type={"text"} placeholder="Descripcion" value={""} />
+          </InputWrapper>
+          <Button id='Button' type="submit">Guardar</Button >
+        </Form> */}
+
+        {/* <lr-config
+          ctx-name="my-uploader"
+          pubkey="b739047dcf890df23203"
+          img-only="true"
+          multiple="false"
+          max-local-file-size-bytes="524288000"
+          use-cloud-image-editor="true"
+          source-list="local, camera, instagram"
+        ></lr-config>
+
+        <lr-file-uploader-regular
+          ctx-name="my-uploader"
+          class="my-config"
+          css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.25.0/web/lr-file-uploader-regular.min.css"
+        >
+          <lr-data-output
+            ref={dataOutputRef}
+            ctx-name="my-uploader"
+            pubkey="b739047dcf890df23203"
+            hidden
+            use-event
+            onEvent={handleUploaderEvent}
+          ></lr-data-output>
+        </lr-file-uploader-regular>
+
+      </FormWrapper> */}
+      
+
+      <div>
+        {files.map((file) => (
+          <img key={file.uuid} src={file.cdnUrl} alt="Preview" />
+        ))}
+      </div>
+    </EditPageWrapper>
+  );
+}
 
 /*
   color scheme
@@ -83,86 +237,3 @@ const Button = styled.button`
   font-weight: 600;
   
 `;
-
-
-
-export default function EditPage() {
-  const dataOutputRef = useRef();
-  const [files, setFiles] = useState([]);
-
-  const handleUploaderEvent = useCallback((e) => {
-    const { data } = e.detail;
-    setFiles(data);
-  }, []);
-  console.log("files", files);
-  useEffect(() => {
-    const el = dataOutputRef.current;
-    el?.addEventListener("lr-data-output", handleUploaderEvent);
-    return () => {
-      el?.removeEventListener("lr-data-output", handleUploaderEvent);
-    };
-  }, [handleUploaderEvent]);
-
-  return (
-    <EditPageWrapper id="EditPageWrapper">
-     
-      <Title id="div">Bienvenida a la página de edición</Title>
-
-      
-      <FormWrapper id="FormWrapper">
-        <Form id="Form" onSubmit={"handleSubmit"}>
-          Nombre de la prenda:
-
-          <InputWrapper>
-            <Input type={"text"} placeholder="Producto" value={""} />
-          </InputWrapper>
-          
-        
-          Precio:
-          <InputWrapper>
-            <Input type={"text"} placeholder="Precio" value={""} />
-          </InputWrapper>
-          
-          Breve descripción:
-          <InputWrapper>
-            <Input type={"text"} placeholder="Descripcion" value={""} />
-          </InputWrapper>
-          <Button id='Button' type="submit">Guardar</Button >
-        </Form>
-
-        <lr-config
-          ctx-name="my-uploader"
-          pubkey="b739047dcf890df23203"
-          img-only="true"
-          multiple="false"
-          max-local-file-size-bytes="524288000"
-          use-cloud-image-editor="true"
-          source-list="local, camera, instagram"
-        ></lr-config>
-
-        <lr-file-uploader-regular
-          ctx-name="my-uploader"
-          class="my-config"
-          css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.25.0/web/lr-file-uploader-regular.min.css"
-        >
-          <lr-data-output
-            ref={dataOutputRef}
-            ctx-name="my-uploader"
-            pubkey="b739047dcf890df23203"
-            hidden
-            use-event
-            onEvent={handleUploaderEvent}
-          ></lr-data-output>
-        </lr-file-uploader-regular>
-
-      </FormWrapper>
-      
-
-      <div>
-        {files.map((file) => (
-          <img key={file.uuid} src={file.cdnUrl} alt="Preview" />
-        ))}
-      </div>
-    </EditPageWrapper>
-  );
-}
