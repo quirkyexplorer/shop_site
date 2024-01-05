@@ -1,117 +1,23 @@
 import React from "react";
-import styled from 'styled-components';
-import { useState , useEffect} from "react";
-//import { images } from '../assets/';
-import { ReactComponent as RightSvg} from '../svgs/rightArrow.svg'
-import { ReactComponent as LeftSvg} from '../svgs/leftArrow.svg'
-
-
-
-const CenterCarousel = styled.div`
-  height: 100vh;
-  padding-top: 100px;
-  //background-color: hsl(0, 0%, 75%);
-  /* background: conic-gradient( 
-    from 300deg at 50% 50%,
-    hsl(198, 82%, 5%),
-    hsl(265, 100%, 50%), 
-    hsl(265, 100%, 50%), 
-    hsl(198, 82%, 5%)
-    ); */
-  background-color: hsl(198, 82%, 5%);
-  background-image:
-  linear-gradient(
-    calc(180deg - 20deg),
-    transparent 0%,
-    transparent 70%,
-    hsl(265, 100%, 50%) 50%,
-    hsl(198, 82%, 5%) 100%
-  ),
-  linear-gradient(
-    calc(180deg - 20deg),
-    transparent 0%,
-    transparent 50%,
-    hsl(265, 100%, 35%) 50%,
-    hsl(198, 82%, 5%)100%
-  );
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position:relative;
-`
-
-const CarouselWrapper = styled.div`
-  padding-top: 15px;
-  padding-bottom: 15px;
-  max-width: 960px;
-  overflow: hidden;
-
-  @media (max-width: 950px) {
-    max-width: 645px;
-  }
-
-  @media (max-width: 600px) {
-    max-width: 325px;
-  }
-`;
-
-const CarouselTrack = styled.div`
-  padding-left: 10px;
-  display: flex;
-  align-items: center;
-  transition: transform 1s ease;
-  gap:20px;
-  /* transform: translateX(300px); */
-`;
-
-const CarouselItem = styled.div``;
-
-const Image = styled.img`
-  max-width: 300px;
-  border-radius: 3%;
-  box-shadow: 0px 0px 10px 1px hsl(265, 100%, 50%);
-`;
-
-const Button = styled.div`
-  display: flex;
-  position: absolute;
-  border-radius: 50%;
-  background-color: hsl(315, 100%, 50%);
-  border-radius: 50%;
-  top: 50%;
-  
-  @media (max-width: 600px) {
-    top: 90%; 
-    ${(props) => (props.direction === 'right' ? 'left:60%' : 'right:60%')};
-  }
-
-  /* below we move the pictures manipulating css */
-  ${(props) => (props.direction === 'right' ? 'left:90%' : 'right:90%')};
-
-/* Hover effect */
-  :hover {
-    transform: scale(1.3);
-    background-color: hsl(315, 100%, 50%);
-    border-radius: 50%;
-    transition: transform 300ms;
-  }
-
-`;
+import styled from "styled-components";
+import { useState, useEffect } from "react";
+import { ReactComponent as RightSvg } from "../svgs/rightArrow.svg";
+import { ReactComponent as LeftSvg } from "../svgs/leftArrow.svg";
 
 const getUploadcareImageUrl = (uuid, transformations) => {
   const baseUrl = `https://ucarecdn.com/${uuid}`;
-  const transformationsString = transformations.join('/');
+  const transformationsString = transformations.join("/");
   return `${baseUrl}/${transformationsString}/`;
 };
 
-const uuids = [
-'ff75dcd1-3d8d-48e6-975f-0cec75e2cec6',
-'c7c299b7-74d7-472f-94be-ecfb7cf681c6',
-"cfafce80-0c86-41ba-b7ee-671ecce588b2",
-'3015364a-ce6a-4b2d-9094-53a4ccf12c8a',
-'8d688e91-1353-46f2-8ae7-998e5d71f3dc'
-// Add more UUIDs as needed
-];
+// const uuids = [
+//   "ff75dcd1-3d8d-48e6-975f-0cec75e2cec6",
+//   "c7c299b7-74d7-472f-94be-ecfb7cf681c6",
+//   "cfafce80-0c86-41ba-b7ee-671ecce588b2",
+//   "3015364a-ce6a-4b2d-9094-53a4ccf12c8a",
+//   "8d688e91-1353-46f2-8ae7-998e5d71f3dc",
+//   // Add more UUIDs as needed
+// ];
 
 export default function Carrousel() {
   const [images, setImages] = useState([]);
@@ -120,15 +26,24 @@ export default function Carrousel() {
   useEffect(() => {
     // Fetch images from Uploadcare and update the state
     // Replace 'YOUR_UUID_HERE' with the actual UUID
+
+
     const fetchImages = async () => {
       try {
+
+        const productsResponse = await fetch('http://localhost:8080/api/products');
+        const productsData = await productsResponse.json();
+        
+        const uuids = productsData.map(product => product.imageUuid);
+
+        // below we await several request for each photo  we then make
+        // an array of promises in uploadedImages
         const promises = uuids.map(async (uuid) => {
-          const response = await fetch(`https://api.uploadcare.com/files/${uuid}/`);
-          const data = await response.json();
+          
           const imageUrl = getUploadcareImageUrl(uuid, [
-            '-/preview/600x800/',
-            '-/format/auto/',
-            '-/quality/smart/'
+            "-/preview/600x800/",
+            "-/format/auto/",
+            "-/quality/smart/",
           ]);
           return imageUrl;
         });
@@ -136,7 +51,7 @@ export default function Carrousel() {
         const uploadedImages = await Promise.all(promises);
         setImages(uploadedImages);
       } catch (error) {
-        console.error('Error fetching images:', error);
+        console.error("Error fetching images:", error);
       }
     };
 
@@ -159,7 +74,8 @@ export default function Carrousel() {
     <CenterCarousel id="CenterCarousel">
       <CarouselWrapper id="CarouselWrapper">
         {/* here we pass values to move hidden pictures by */}
-        <CarouselTrack id="CarouselTrack"
+        <CarouselTrack
+          id="CarouselTrack"
           style={{ transform: `translateX(-${currentIndex * 320}px)` }}
         >
           {images.map((image, index) => {
@@ -172,16 +88,106 @@ export default function Carrousel() {
         </CarouselTrack>
 
         {/* navigation buttons or indicators */}
-        <Button id="Button" direction={'left'} onClick={handlePrev}>
-          <LeftSvg/>
+        <Button id="Button" direction={"left"} onClick={handlePrev}>
+          <LeftSvg />
         </Button>
-        
-        <Button id="Button" direction={'right'} onClick={handleNext}>
-          <RightSvg  />
+
+        <Button id="Button" direction={"right"} onClick={handleNext}>
+          <RightSvg />
         </Button>
-        
-        
       </CarouselWrapper>
     </CenterCarousel>
   );
 }
+
+const CenterCarousel = styled.div`
+  height: 100vh;
+  padding-top: 100px;
+  //background-color: hsl(0, 0%, 75%);
+  /* background: conic-gradient( 
+    from 300deg at 50% 50%,
+    hsl(198, 82%, 5%),
+    hsl(265, 100%, 50%), 
+    hsl(265, 100%, 50%), 
+    hsl(198, 82%, 5%)
+    ); */
+  background-color: hsl(198, 82%, 5%);
+  background-image: linear-gradient(
+      calc(180deg - 20deg),
+      transparent 0%,
+      transparent 70%,
+      hsl(265, 100%, 50%) 50%,
+      hsl(198, 82%, 5%) 100%
+    ),
+    linear-gradient(
+      calc(180deg - 20deg),
+      transparent 0%,
+      transparent 50%,
+      hsl(265, 100%, 35%) 50%,
+      hsl(198, 82%, 5%) 100%
+    );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+`;
+
+const CarouselWrapper = styled.div`
+  padding-top: 15px;
+  padding-bottom: 15px;
+  max-width: 960px;
+  overflow: hidden;
+
+  @media (max-width: 950px) {
+    max-width: 645px;
+  }
+
+  @media (max-width: 600px) {
+    max-width: 325px;
+  }
+`;
+
+const CarouselTrack = styled.div`
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  transition: transform 1s ease;
+  gap: 20px;
+  /* transform: translateX(300px); */
+`;
+
+const CarouselItem = styled.div``;
+
+const Image = styled.img`
+  max-width: 300px;
+  border-radius: 3%;
+  box-shadow: 0px 0px 10px 1px hsl(265, 100%, 50%);
+`;
+
+const Button = styled.div`
+  display: flex;
+  position: absolute;
+  border-radius: 50%;
+  background-color: hsl(315, 100%, 50%);
+  border-radius: 50%;
+  top: 50%;
+
+  /* below we move the pictures manipulating css */
+
+  @media (max-width: 2000px) {
+    ${(props) => (props.direction === "right" ? "left:90%" : "right:90%")};
+  }
+
+  @media (max-width: 600px) {
+    top: 90%;
+    ${(props) => (props.direction === "right" ? "left:60%" : "right:60%")};
+  }
+
+  /* Hover effect */
+  :hover {
+    transform: scale(1.3);
+    background-color: hsl(315, 100%, 50%);
+    border-radius: 50%;
+    transition: transform 300ms;
+  }
+`;

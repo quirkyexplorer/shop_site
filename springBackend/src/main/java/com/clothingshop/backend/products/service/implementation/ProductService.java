@@ -31,8 +31,8 @@ public class ProductService implements ProductServiceInterface {
 
     @Override
     public ProductEntity saveProduct(ProductEntity productEntity) {
-        if (productEntity.getImageId() == null) {
-          productEntity.setImageId(new int[0]);
+        if (productEntity.getimageUuid() == null) {
+          productEntity.setimageUuid(new String[]{});
           }
         return productRepository.save(productEntity);
     }
@@ -50,7 +50,7 @@ public class ProductService implements ProductServiceInterface {
             existingProduct.setPrice(productEntity.getPrice());
             existingProduct.setTitle(productEntity.getTitle());
             existingProduct.setDescription(productEntity.getDescription());
-            existingProduct.setImageId(productEntity.getImageId());
+            existingProduct.setimageUuid(productEntity.getimageUuid());
 
             // Save the updated product
             return productRepository.save(existingProduct);

@@ -1,7 +1,28 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Hero1 from '../assets/hero1.jpg';
 import Hero2 from '../assets/hero2.jpg';
+
+
+export default function HeroSection() {
+  return (
+    <HeroWrapper id='HeroWrapper'>
+      <HeroCard id='HeroCard'>
+        <ImageWrapper id='ImageWrapper'>
+        <Image id="Image" src={Hero1} alt='girl in sportswear' />
+        <Image2 id="Image2" src={Hero2} alt='girl in sportswear' />
+        </ImageWrapper>
+        <ButtonWrapper id='ButtonWrapper'>
+          <Banner id='Banner'>Lista para el Veraneo?</Banner>
+            <Button id='Button'>
+              Ver Estilos
+            </Button>
+        </ButtonWrapper>
+      </HeroCard>
+    </HeroWrapper>
+  )
+}
+
 
 // background-image: conic-gradient(
 //   deeppink,
@@ -41,21 +62,18 @@ const ImageWrapper = styled.div`
 const Image  = styled.img`
   max-width: 600px;
 
-  /* Media query for Hero2 image */
-  @media (max-width: 1024px) {
-    ${({ hideAt1024 }) =>
-      hideAt1024 &&
-      css`
-        display: none;
-      `}
-  }
-  
   @media (max-width: 500px) {
       max-width: 100%;
   }
 
 `;
 
+const Image2 = styled.img`
+  max-width: 600px;
+  @media (max-width: 1024px) {
+    display: none;
+  }
+` 
 const ButtonWrapper = styled.div`
   display: flex;
   position: absolute;
@@ -107,25 +125,3 @@ const Button = styled.a`
     width: 8rem;
   }
 `;
-export default function HeroSection() {
-  return (
-    <HeroWrapper id='HeroWrapper'>
-     {/* <h2 style={{textAlign: 'center', margin: 0}}>
-        Welcome to home page
-      </h2> */}
-      <HeroCard id='HeroCard'>
-        <ImageWrapper id='ImageWrapper'>
-        <Image src={Hero1} alt='girl in sportswear' />
-        <Image src={Hero2} alt='girl in sportswear' hideAt1024/>
-        </ImageWrapper>
-        <ButtonWrapper id='ButtonWrapper'>
-          <Banner id='Banner'>Lista para el Veraneo?</Banner>
-            <Button id='Button'>
-              Ver Estilos
-            </Button>
-        </ButtonWrapper>
-      </HeroCard>
-      
-    </HeroWrapper>
-  )
-}

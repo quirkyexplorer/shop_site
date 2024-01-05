@@ -8,7 +8,7 @@ public record Product(
     BigDecimal price,
     String title,
     String description,
-    int[] imageId
+    String[] imageUuid
 ) {
   
 }

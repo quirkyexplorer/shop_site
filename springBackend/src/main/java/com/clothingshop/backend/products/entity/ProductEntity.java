@@ -23,19 +23,19 @@ public class ProductEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "imageId")
-    private int[] imageId;
+    @Column(name = "imageUuid")
+    private String[] imageUuid;
 
     public ProductEntity() {
 
     }
     
-    public ProductEntity(Integer id, BigDecimal price, String title, String description, int[] imageId) {
+    public ProductEntity(Integer id, BigDecimal price, String title, String description, String[] imageUuid) {
         this.id = id;
         this.price = price;
         this.title = title;
         this.description = description;
-        this.imageId = imageId;
+        this.imageUuid = imageUuid;
     }
 
     public Integer getId() {
@@ -70,12 +70,12 @@ public class ProductEntity {
         this.description = description;
     }
 
-    public int[] getImageId() {
-        return this.imageId;
+    public String[] getimageUuid() {
+        return this.imageUuid;
     }
 
-    public void setImageId(int[] imageId) {
-        this.imageId = imageId;
+    public void setimageUuid(String[] imageUuid) {
+        this.imageUuid = imageUuid;
     }
 
 }
