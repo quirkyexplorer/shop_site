@@ -1,6 +1,7 @@
 import React from "react";
+import useSWR from 'swr';
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ReactComponent as RightSvg } from "../svgs/rightArrow.svg";
 import { ReactComponent as LeftSvg } from "../svgs/leftArrow.svg";
 
@@ -10,53 +11,44 @@ const getUploadcareImageUrl = (uuid, transformations) => {
   return `${baseUrl}/${transformationsString}/`;
 };
 
-// const uuids = [
-//   "ff75dcd1-3d8d-48e6-975f-0cec75e2cec6",
-//   "c7c299b7-74d7-472f-94be-ecfb7cf681c6",
-//   "cfafce80-0c86-41ba-b7ee-671ecce588b2",
-//   "3015364a-ce6a-4b2d-9094-53a4ccf12c8a",
-//   "8d688e91-1353-46f2-8ae7-998e5d71f3dc",
-//   // Add more UUIDs as needed
-// ];
 
-export default function Carrousel() {
-  const [images, setImages] = useState([]);
+async function fetcher() {
+  const productsResponse = await fetch('http://localhost:8080/api/products');
+  
+  if (!productsResponse.ok) {
+    throw new Error(`Network response was not ok: ${productsResponse.statusText}`);
+  }
+
+  const productsData = await productsResponse.json();
+  
+  const uuids = productsData.map(product => product.imageUuid);
+
+  // below we await several request for each photo  we then make
+  // an array of promises in uploadedImages
+  const promises = uuids.map(async (uuid) => {
+    
+    const imageUrl = getUploadcareImageUrl(uuid, [
+      "-/preview/600x800/",
+      "-/format/auto/",
+      "-/quality/smart/",
+    ]);
+    return imageUrl;
+  });
+
+  const uploadedImages = await Promise.all(promises);
+
+  if (!uploadedImages || uploadedImages.length === 0) {
+    throw new Error('No images were uploaded.');
+  }
+
+  return uploadedImages;
+}
+
+
+export default function Carrousel() { 
+  const { data, isLoading, error } = useSWR( "http://localhost:8080/api/products", fetcher);
+  const [images, setImages] = useState(data);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    // Fetch images from Uploadcare and update the state
-    // Replace 'YOUR_UUID_HERE' with the actual UUID
-
-
-    const fetchImages = async () => {
-      try {
-
-        const productsResponse = await fetch('http://localhost:8080/api/products');
-        const productsData = await productsResponse.json();
-        
-        const uuids = productsData.map(product => product.imageUuid);
-
-        // below we await several request for each photo  we then make
-        // an array of promises in uploadedImages
-        const promises = uuids.map(async (uuid) => {
-          
-          const imageUrl = getUploadcareImageUrl(uuid, [
-            "-/preview/600x800/",
-            "-/format/auto/",
-            "-/quality/smart/",
-          ]);
-          return imageUrl;
-        });
-
-        const uploadedImages = await Promise.all(promises);
-        setImages(uploadedImages);
-      } catch (error) {
-        console.error("Error fetching images:", error);
-      }
-    };
-
-    fetchImages();
-  }, []);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
@@ -69,6 +61,14 @@ export default function Carrousel() {
       prevIndex === 0 ? prevIndex : prevIndex - 1
     );
   };
+
+  if (isLoading) {
+    return <p>Loading…</p>;
+  }
+
+  if (error) {
+    return <p>Something's gone wrong</p>;
+  }
 
   return (
     <CenterCarousel id="CenterCarousel">
