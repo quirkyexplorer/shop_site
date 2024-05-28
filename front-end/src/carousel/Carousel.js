@@ -47,12 +47,11 @@ async function fetcher() {
 
 export default function Carrousel() { 
   const { data, isLoading, error } = useSWR( "http://localhost:8080/api/products", fetcher);
-  const [images, setImages] = useState(data);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 3 ? prevIndex : prevIndex + 1
+      prevIndex === data.length - 3 ? prevIndex : prevIndex + 1
     );
   };
 
@@ -78,7 +77,7 @@ export default function Carrousel() {
           id="CarouselTrack"
           style={{ transform: `translateX(-${currentIndex * 320}px)` }}
         >
-          {images.map((image, index) => {
+          {data.map((image, index) => {
             return (
               <CarouselItem id="CarouselItem" key={`img${index}`}>
                 <Image id="Image" src={image} alt={`carousel-item-${index}`} />
